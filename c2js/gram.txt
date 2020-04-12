@@ -1,0 +1,57 @@
+grammar gram;
+options { 
+    language=Java;
+    tokenVocab=myterminals;
+}
+
+
+start : decllist EOF ;
+decllist : funcdecl decllist | vardecl SEMI decllist | ;
+
+funcdecl : qualifiers type ID LP paramlist RP braceblock ;
+paramlist : | param paramlist2 ;
+paramlist2 : CMA param paramlist2 | ;
+param : qualifiers type ID paramlist2 ;
+
+type : TYPE starlist | ID starlist | STRUCT ID starlist ;
+
+starlist : | STAR starlist ;
+braceblock : LBR stmtlist RBR ;
+stmtlist : stmt stmtlist | ;
+
+stmt : vardecl SEMI | forloop | braceblock | expr SEMI | conditional | returnstmt SEMI | whileloop;
+
+whileloop : WHILE LP expr RP stmt ;
+
+conditional : IF LP expr RP stmt | IF LP expr RP stmt ELSE stmt ;
+
+returnstmt : RETURN | RETURN expr ;
+
+vardecl : qualifiers type vars ;
+vars : ID optionalvarinitializer vars2;
+vars2 : | CMA ID optionalvarinitializer vars2 ;
+
+qualifiers : | CONST qualifiers | STATIC qualifiers ;
+optionalvarinitializer : EQ expr | ;
+
+expr : commaexp ;
+commaexp : commaexp CMA assignexp | assignexp ;
+assignexp : assignexp EQ ternary | assignexp INPLACEUPDATE ternary | ternary;
+ternary : orexp QUESTION orexp COLON orexp | orexp;
+orexp : orexp OROR andexp | andexp ;
+andexp : andexp  ANDAND borexp | borexp ;
+borexp : borexp  OR xorexp | xorexp ;
+xorexp : xorexp XOR bandexp | bandexp ;
+bandexp : bandexp AND equalityexp | equalityexp ;
+equalityexp : equalityexp EQUALS relexp | equalityexp NOTEQUALS relexp | relexp;
+relexp : relexp RELOP shiftexp | shiftexp ;
+shiftexp : shiftexp SHIFT sum | sum ;
+sum : sum PLUS product | sum MINUS product | product ;
+product : product STAR unary | product SLASH unary | product MOD unary | unary ;
+unary : BANG unary | TILDE unary | PLUSPLUS unary | MINUSMINUS unary | PLUS unary | MINUS unary | LP type RP unary | STAR unary | AND unary | SIZEOF LP unary RP | unary PLUSPLUS | unary MINUSMINUS  | factor ;
+factor : factor LP arglist RP | factor LB expr RB | factor ARROW atom | factor DOT atom | atom ;
+atom : ID | NUM | LP expr RP | STRINGCONSTANT ;
+arglist : | expr arglist2 ;
+arglist2 : CMA expr arglist2 | ;
+forloop : FOR LP optionalexpr SEMI optionalexpr SEMI optionalexpr RP stmt ;
+optionalexpr : expr | ;

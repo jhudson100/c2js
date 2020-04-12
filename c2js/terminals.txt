@@ -1,0 +1,51 @@
+COMMENT : /[*].*?[*]/|//[^\n]*
+WHITESPACE : \s+
+TYPE : \b(void|int|char|unsigned\s+char|unsigned\s+int|unsigned\s+long|unsigned\s+short)\b
+INPLACEUPDATE : \+=|-=|\*=|/=|%=|<<=|>>=|&=|\^=|\|=
+SHIFT : (<<|>>)(?!=)
+RELOP : <=|>=|<|>
+NUM : [0-9]+ 
+ARROW : ->
+CMA : ,
+SEMI: ;
+LBR : \{
+RBR : \}
+LB : \[
+RB : \]
+LP : \(
+RP : \)
+QUESTION : \?
+COLON : :
+EQ : =(?!=)
+OROR : \|\|
+ANDAND : && 
+OR : \|(?!\|)
+XOR : \^
+AND : &(?!&) 
+EQUALS : ==
+PLUSPLUS : \+\+
+PLUS : \+
+MINUSMINUS: --
+MINUS : -
+STAR : \*
+SLASH : /
+MOD : %
+
+NOTEQUALS: !=
+BANG : !
+
+TILDE : ~
+DOT : \.
+SIZEOF : \bsizeof\b
+FOR : \bfor\b
+RETURN : \breturn\b
+IF : \bif\b
+ELSE : \belse\b
+CONST : \bconst\b
+STATIC : \bstatic\b
+STRUCT : \bstruct\b
+WHILE: \bwhile\b
+
+STRINGCONSTANT : "(\\.|[^"])*"
+
+ID : [A-Za-z_][A-Za-z_0-9]* 
